@@ -1,4 +1,4 @@
-Please copy and past this.
+Please copy and paste this.
 pip install -r requirements.txt
 
 
