@@ -3,7 +3,7 @@
 # Part of Team Project: [beready]
 # License: MIT
 """
-scheduler.py
+beready_scheduler.py
 - APScheduler로 매주 월요일 오전 06:00(KST) 1회 최신 식단표 크롤링
 - 별도 프로세스로 실행:  python scheduler.py
 """
