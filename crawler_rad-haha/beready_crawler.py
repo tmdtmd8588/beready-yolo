@@ -3,7 +3,7 @@
 # Part of Team Project: [beready]
 # License: MIT
 """
-crawler.py
+beready_crawler.py
 - PKNU 라일락 주간식단표 크롤러
 - 목록에서 최신 글 → 상세 표에서 '중식' 5일치 파싱 → core.upsert로 DB 저장
 """
