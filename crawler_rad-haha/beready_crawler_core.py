@@ -3,7 +3,7 @@
 # Part of Team Project: [beready]
 # License: MIT
 """
-core.py
+beready_crawler_core.py
 - DB 스키마/저장/조회
 - FastAPI: DB에서 최신 '주간(월~금)' 메뉴 JSON 반환
 """
