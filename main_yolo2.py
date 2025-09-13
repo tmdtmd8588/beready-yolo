@@ -69,10 +69,11 @@ def detect_people(camera_index, video_path): # 사람 탐지 함수
         # 예상 대기 시간 표시
         cv2.putText(frame, f'Wait Time: {current_wait_time} min', (10, 70),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-
-        cv2.imshow(f'Camera {camera_index+1}', frame) # 프레임을 실시간으로 화면에 표시
-        if cv2.waitKey(1) & 0xFF == 27: # 사용자가 ESC키를 누르면 루프 종료
-            break
+        
+        #배포를 위해 주석처리
+        #cv2.imshow(f'Camera {camera_index+1}', frame) # 프레임을 실시간으로 화면에 표시
+        #if cv2.waitKey(1) & 0xFF == 27: # 사용자가 ESC키를 누르면 루프 종료
+            #break
 
     cap.release() # cap 객체가 사용하던 영상 스트림을 종료
     cv2.destroyAllWindows() # OpenCV가 생성한 모든 창(윈도우)을 닫음
@@ -128,3 +129,4 @@ def startup_event():
 
 if __name__ == "__main__": # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo2:app", reload=True) # FastAPI 서버를 실행하는 명령
+
