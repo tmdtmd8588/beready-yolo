@@ -32,7 +32,7 @@ model = YOLO("yolov8n.pt") # YOLOv8 모델 로드
 
 video_paths = [ # 감지할 비디오 파일 경로
     "http://172.30.1.42:8080/video",  # 카메라1
-    "http://172.30.1.81:8080/video",  # 카메라2
+    "http://172.30.1.29:8080/video",  # 카메라2
 ]
 
 def detect_people(camera_index, video_path): # 사람 탐지 함수
@@ -129,4 +129,5 @@ def startup_event():
 
 if __name__ == "__main__": # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo2:app", reload=True) # FastAPI 서버를 실행하는 명령
+
 
