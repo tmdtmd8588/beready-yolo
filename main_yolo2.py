@@ -76,7 +76,7 @@ def detect_people(camera_index, video_path): # 사람 탐지 함수
             #break
 
     cap.release() # cap 객체가 사용하던 영상 스트림을 종료
-    cv2.destroyAllWindows() # OpenCV가 생성한 모든 창(윈도우)을 닫음
+    #cv2.destroyAllWindows() # OpenCV가 생성한 모든 창(윈도우)을 닫음
 
 def calculate_wait_time(): #예상대기시간을 구하는 함수
     global wait_time
@@ -128,6 +128,7 @@ def startup_event():
     threading.Thread(target=calculate_wait_time, daemon=True).start()
 
 if __name__ == "__main__": # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
-    uvicorn.run("main_yolo2:app", reload=True) # FastAPI 서버를 실행하는 명령
+    uvicorn.run("main_yolo2:app", host="0.0.0.0", port=8000) # FastAPI 서버를 실행하는 명령
+
 
 
