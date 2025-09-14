@@ -12,7 +12,7 @@ import asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from crawler import crawl_once  # 크롤링 함수 재사용
+from crawler_radhaha.beready_crawler import crawl_once  # 크롤링 함수 재사용
 
 async def crawl_job():
     # 블로킹 I/O는 스레드로
