@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Created by rad-haha(absinthe6),안시은 ,2025
-# Part of Team Project: [beready]
+# Part of Team Project: [beready]CRAWLER
 # License: MIT
 """
 beready_crawler.py
@@ -15,7 +15,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup, Tag
 
-from core import init_db, upsert  # DB는 core 모듈 사용
+from crawler_radhaha.beready_crawler_core import (init_db, upsert)  # DB는 core 모듈 사용
 
 LIST_URL = "https://www.pknu.ac.kr/main/399"
 
@@ -68,7 +68,7 @@ def find_lilac_table(view_html: str) -> Optional[Tag]:
             return table
     return soup.find("table")
 
-# ------------- 유틸 -------------
+# ------------- 유틸리티 -------------
 def cell_text(el: Optional[Tag]) -> str:
     if not el:
         return ""
@@ -103,7 +103,7 @@ def pick_5_dates(cells: List[Tag]) -> List[Tag]:
     cleaned = [c for c in cells if "운영정보" not in cell_text(c)]
     return cleaned[:5]
 
-# ------------- 표 파싱 (중식 5일) -------------
+# ------------- 표 파싱 (중식 5일): 수정시 따로 HTML 뽑아서 확인 필수-------------
 def parse_lunch_from_table(table: Tag) -> List[Tuple[str, str]]:
     rows_out: List[Tuple[str, str]] = []
     trs = table.find_all("tr")
@@ -161,7 +161,7 @@ def parse_lunch_from_table(table: Tag) -> List[Tuple[str, str]]:
 
     return rows_out
 
-# ------------- 1회 크롤링 실행 -------------
+# ------------- crawl_once(): 핵심 부분 (테스트용 프린트 기능 추가:TOTAL 값 유심히 보기) -------------
 def crawl_once() -> int:
     """
     목록 → 최신 글 → 상세 표에서 '중식' 5일치 파싱 → DB 저장
