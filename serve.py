@@ -1,15 +1,14 @@
 from fastapi import FastAPI
+from crawler_radhaha.beready_crawler_core import router as lilacdiet_router
+from main_yolo2 import router as yolo_router
 
-# 각각의 앱 import
-from main_yolo2 import app as yolo_app
-from crawler_radhaha.beready_crawler_core import app as lilac_app
+app = FastAPI(title="Beready API (YOLO + LilacDiet)")
 
-app = FastAPI(title="BeReady Unified API")
+# 라우터 합치기: 두 모듈을 하나로 합쳐 서버에 띄우기
+app.include_router(lilacdiet_router)
+app.include_router(yolo_router)
 
-# mount (서브앱으로 붙이기)
-app.mount("/yolo", yolo_app)
-app.mount("/lilac", lilac_app)
-
+# fastapi 서버 헬스 체크용
 @app.get("/healthz")
 def healthz():
     return {"ok": True}
