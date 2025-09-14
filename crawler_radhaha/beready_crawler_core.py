@@ -8,6 +8,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 
 DB_PATH = "cafeteria.db"
+# 이 파일은 serve.py와 같은 경로에 저장됨 #
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS lilac_menu(
