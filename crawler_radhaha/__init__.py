@@ -1,4 +1,4 @@
-touch crawler_radhaha/__init__.py
+# touch crawler_radhaha/__init__.py # 배포때문에 잠깐 주석처리했어요
 git add crawler_radhaha/__init__.py
 git commit -m "chore: make crawler_radhaha a package"
 git push
