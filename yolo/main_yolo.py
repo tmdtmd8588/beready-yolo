@@ -57,7 +57,7 @@ def detect_people(camera_index, video_path):  # 사람 탐지 함수
         with count_lock:  # 사람 수 변경 시
             camera_counts[camera_index] = len(person_detections)
             current_wait_time = wait_time  # 임시로 예상대기시간도 표시하기위해 추가
-
+        """
         # 디스플레이 (카메라별 개별 창)
         for box in person_detections:  # 박스 그리기
             x1, y1, x2, y2 = map(int, box.xyxy[0])  # 경계 상자 좌표
@@ -74,13 +74,15 @@ def detect_people(camera_index, video_path):  # 사람 탐지 함수
         # 예상 대기 시간 표시
         cv2.putText(frame, f'Wait Time: {current_wait_time} min', (10, 70),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-
+        
         cv2.imshow(f'Camera {camera_index + 1}', frame)  # 프레임을 실시간으로 화면에 표시
         if cv2.waitKey(1) & 0xFF == 27:  # 사용자가 ESC키를 누르면 루프 종료
             break
-
+        """
+        
+        total_count = sum(camera_counts)
     cap.release()  # cap 객체가 사용하던 영상 스트림을 종료
-    cv2.destroyAllWindows()  # OpenCV가 생성한 모든 창(윈도우)을 닫음
+    #cv2.destroyAllWindows()  # OpenCV가 생성한 모든 창(윈도우)을 닫음
 
 
 def calculate_wait_time():  # 예상대기시간을 구하는 함수
@@ -142,3 +144,4 @@ app.include_router(router)
 if __name__ == "__main__":  # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo:app", reload=True)  # FastAPI 서버를 실행하는 명령
 """
+
