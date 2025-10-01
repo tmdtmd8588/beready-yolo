@@ -5,6 +5,7 @@ import uvicorn
 
 # 모듈 import
 from crawler_radhaha import beready_crawler_core, beready_crawler
+from crawler_radhaha.beready_crawler_core import crawl_once
 from yolo.main_yolo import router as yolo_router, start_yolo_threads
 
 app = FastAPI()
@@ -34,3 +35,4 @@ def trigger_crawl():
 if __name__ == "__main__":
 
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
