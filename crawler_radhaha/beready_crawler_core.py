@@ -120,6 +120,6 @@ router = APIRouter(prefix="/lilacdiet", tags=["LilacDiet"])
 def health():
     return {"ok": True, "db": DB_PATH}
 
-@router.get("/lilac/menu", response_model=LatestWeekResponse)
+@router.get("/api/lilac/menu", response_model=LatestWeekResponse)
 def api_latest_week():
     return get_latest_week_from_db()
