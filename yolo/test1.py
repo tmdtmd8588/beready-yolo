@@ -1,10 +1,5 @@
-import threading
-import cv2
-import warnings
-from fastapi import FastAPI, APIRouter
-import uvicorn
-from ultralytics import YOLO
-from fastapi.middleware.cors import CORSMiddleware
+import cv2 
+from ultralytics import YOLO 
 import numpy as np
 # np.float 문제 해결 (NumPy 1.24 이상 호환용)
 if not hasattr(np, "float"):
@@ -12,19 +7,6 @@ if not hasattr(np, "float"):
 import time
 # ByteTrack 불러오기
 from yolox.tracker.byte_tracker import BYTETracker
-
-warnings.filterwarnings("ignore", category=FutureWarning)
-
-app = FastAPI()
-
-# CORS 설정
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # ----------------- 설정 -----------------
 VIDEO_PATH = "http://172.30.1.55:8080/video"   # 카메라 URL 또는 파일 경로
@@ -160,4 +142,5 @@ while True:
         break
 
 cap.release()
+
 cv2.destroyAllWindows()
