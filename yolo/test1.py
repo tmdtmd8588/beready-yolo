@@ -7,6 +7,7 @@ if not hasattr(np, "float"):
 import time
 # ByteTrack 불러오기
 from yolox.tracker.byte_tracker import BYTETracker
+import threading
 
 # ----------------- 설정 -----------------
 VIDEO_PATH = "http://172.30.1.55:8080/video"   # 카메라 URL 또는 파일 경로
@@ -42,13 +43,14 @@ meta = {}           # 각 추적 ID별 메타데이터(처음 본 시각, 마지
 # 전역 변수 추가
 wait = 0
 current_people_count = 0
-
+running = False
 # -------------------------------------------
 
-# 바운딩박스 중심 x 좌표 계산함수
-def center_x(bbox):
-    x1, y1, x2, y2 = bbox
-    return (x1 + x2) / 2
+def get_wait():
+    """외부에서 wait 값을 가져갈 때 사용"""
+    return wait
+
+
 
 while True:
     ret, frame = cap.read() # cap.read()로 영상에서 프레임을 하나씩 읽음
@@ -144,3 +146,4 @@ while True:
 cap.release()
 
 cv2.destroyAllWindows()
+
