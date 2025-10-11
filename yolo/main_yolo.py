@@ -9,6 +9,7 @@ import time
 # import math
 from pydantic import BaseModel
 # from typing import List
+from beready_tracker import get_wait
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -126,7 +127,10 @@ def start_yolo_threads():
     for idx, path in enumerate(video_paths):
         threading.Thread(target=detect_people, args=(idx, path), daemon=True).start()
     threading.Thread(target=calculate_wait_time, daemon=True).start()
-
+    
+@app.get("/wait")
+def get_estimated_wait():
+    return {"wait": get_wait()}
 
 
 """
@@ -144,4 +148,5 @@ app.include_router(router)
 if __name__ == "__main__":  # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo:app", reload=True)  # FastAPI 서버를 실행하는 명령
 """
+
 
