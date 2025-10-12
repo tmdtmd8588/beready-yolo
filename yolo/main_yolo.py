@@ -9,7 +9,7 @@ import time
 # import math
 from pydantic import BaseModel
 # from typing import List
-from beready_tracker import get_wait
+from beready_tracker import get_wait, start_tracker_thread
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -100,7 +100,7 @@ def calculate_wait_time():  # 예상대기시간을 구하는 함수
 
         avg = sum(average_counts) / len(average_counts)
 
-        wait_time = round(avg * 20 / 60)  # 1명당 20초 # 초를 분으로 바꾸고 반올림함
+        wait_time = round(avg * get_wait() / 60)  # 1명당 20초 # 초를 분으로 바꾸고 반올림함
 
         average_counts.clear()
 
@@ -122,15 +122,17 @@ def get_lilac():
         return {"cam1": camera_counts[0], "cam2": camera_counts[1],
                 "total": sum(camera_counts), "wait_time": wait_time}
 
-# YOLO 탐지 스레드 실행 함수
+@router.get("/wait")
+def get_wait_time():
+    return {"wait": get_wait()}
+        
+# 스레드 실행 함수
 def start_yolo_threads():
+    start_tracker_thread()  # tracker 스레드 실행
     for idx, path in enumerate(video_paths):
         threading.Thread(target=detect_people, args=(idx, path), daemon=True).start()
     threading.Thread(target=calculate_wait_time, daemon=True).start()
     
-@app.get("/wait")
-def get_estimated_wait():
-    return {"wait": get_wait()}
 
 
 """
@@ -148,5 +150,6 @@ app.include_router(router)
 if __name__ == "__main__":  # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo:app", reload=True)  # FastAPI 서버를 실행하는 명령
 """
+
 
 
