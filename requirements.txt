@@ -7,6 +7,3 @@ uvicorn[standard]==0.30.1
 ultralytics
 opencv-python-headless
 numpy>=1.24.0
-
-# ByteTrack (YOLOX 기반)
-git+https://github.com/Megvii-BaseDetection/YOLOX.git
