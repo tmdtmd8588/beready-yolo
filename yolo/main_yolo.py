@@ -67,7 +67,6 @@ def detect_people(camera_index, video_path):  # 사람 탐지 함수
             cv2.putText(frame, f'Person {conf:.2f}', (x1, y1 - 10),  # 프레임에 라벨을 그림
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
-        total_count = sum(camera_counts)
 
         cv2.putText(frame, f'Cam{camera_index + 1}: {camera_counts[camera_index]} | Total: {total_count}', (10, 30),
                     # 현재 감지된 사람 수를 좌상단에 표시
@@ -150,6 +149,7 @@ app.include_router(router)
 if __name__ == "__main__":  # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo:app", reload=True)  # FastAPI 서버를 실행하는 명령
 """
+
 
 
 
