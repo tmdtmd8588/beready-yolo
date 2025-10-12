@@ -6,12 +6,12 @@ from yolox.tracker.byte_tracker import BYTETracker # ByteTrack 불러오기
 import threading
 
 # ----------------- 설정 -----------------
-VIDEO_PATH = "http://172.30.1.55:8080/video" # 카메라 URL 또는 파일 경로
+VIDEO_PATH = "people.mp4" # 카메라 URL 또는 파일 경로
 MODEL_PATH = "yolov8n.pt" # YOLO 모델 파일 경로
 detect_interval = 1 # 몇 프레임마다 detection 실행할지(1이면 매 프레임)
 conf_threshold = 0.2 # 검출 신뢰도 임계값
 scale = 0.5 # 화면 표시 시 축소 비율(성능/표시용)
-max_missed = 20  # 20프레임 미검출 시 사라진 것으로 간주
+max_missed = 60  # 60프레임 미검출 시 사라진 것으로 간주
 # ----------------------------------------
 
 # 전역 변수
@@ -132,11 +132,15 @@ def start_tracker():
                 meta[target_id]["first_seen"] = time.time()
             print(f"[INFO] 새로운 대상 선택: ID={target_id}, 현재 인원수={current_people_count}")
         
-        # 프레임 크기 조정 및 출력
-        resized_frame = cv2.resize(frame, (0, 0), fx=scale, fy=scale)
-        cv2.imshow("Queue Tracker", resized_frame)
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            running = False
+        # 시각화
+        for x1, y1, x2, y2, tid in tracks:
+            color = (0, 0, 255) if tid == target_id else (0, 255, 0)
+            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+            cv2.putText(frame, f"ID {tid}", (x1, y1 - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+
+        cv2.imshow("Queue Tracker", cv2.resize(frame, (0, 0), fx=scale, fy=scale))
+        if cv2.waitKey(30) & 0xFF == ord("q"):
             break
 
     cap.release()
