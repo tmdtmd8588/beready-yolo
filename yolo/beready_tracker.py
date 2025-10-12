@@ -131,7 +131,7 @@ def start_tracker():
             if meta[target_id]["first_seen"] is None:
                 meta[target_id]["first_seen"] = time.time()
             print(f"[INFO] 새로운 대상 선택: ID={target_id}, 현재 인원수={current_people_count}")
-        
+        """
         # 시각화
         for x1, y1, x2, y2, tid in tracks:
             color = (0, 0, 255) if tid == target_id else (0, 255, 0)
@@ -142,9 +142,10 @@ def start_tracker():
         cv2.imshow("Queue Tracker", cv2.resize(frame, (0, 0), fx=scale, fy=scale))
         if cv2.waitKey(30) & 0xFF == ord("q"):
             break
+        """
 
     cap.release()
-    cv2.destroyAllWindows()
+    #cv2.destroyAllWindows()
     running = False
     print("[INFO] Tracker stopped.")
 
@@ -153,3 +154,4 @@ def start_tracker():
 def start_tracker_thread():
     t = threading.Thread(target=start_tracker, daemon=True)
     t.start()
+
