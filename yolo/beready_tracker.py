@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 import numpy as np
 import time
-from yolox.tracker.byte_tracker import BYTETracker # ByteTrack 불러오기
+from tracker.byte_tracker import BYTETracker # ByteTrack 불러오기
 import threading
 
 # ----------------- 설정 -----------------
@@ -154,4 +154,5 @@ def start_tracker():
 def start_tracker_thread():
     t = threading.Thread(target=start_tracker, daemon=True)
     t.start()
+
 
