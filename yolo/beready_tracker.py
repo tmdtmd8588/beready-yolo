@@ -11,7 +11,7 @@ MODEL_PATH = "yolov8n.pt" # YOLO 모델 파일 경로
 detect_interval = 1 # 몇 프레임마다 detection 실행할지(1이면 매 프레임)
 conf_threshold = 0.2 # 검출 신뢰도 임계값
 scale = 0.5 # 화면 표시 시 축소 비율(성능/표시용)
-max_missed = 60  # 60프레임 미검출 시 사라진 것으로 간주
+max_missed = 150  # 150프레임 미검출 시 사라진 것으로 간주
 # ----------------------------------------
 
 # 전역 변수
@@ -37,6 +37,13 @@ def start_tracker():
         np.float = float
 
     cap = cv2.VideoCapture(VIDEO_PATH) # cap으로 비디오 스트림 열기
+    if not cap.isOpened():
+        print(f"[ERROR] Cannot open video: {VIDEO_PATH}")
+        running = False
+        return
+
+
+         
     print("Camera opened:", cap.isOpened()) # cap.isOpened()로 성공 여부 확인 가능
     model = YOLO(MODEL_PATH)  # model로 YOLOv8 로드
 
@@ -154,5 +161,6 @@ def start_tracker():
 def start_tracker_thread():
     t = threading.Thread(target=start_tracker, daemon=True)
     t.start()
+
 
 
