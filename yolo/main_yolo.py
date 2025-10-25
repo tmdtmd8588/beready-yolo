@@ -141,12 +141,15 @@ def get_wait_time():
         
 # 스레드 실행 함수
 def start_yolo_threads():
-    start_tracker_thread()  # tracker 스레드 실행
-    for idx, path in enumerate(video_paths):
-        threading.Thread(target=detect_people, args=(idx, path), daemon=True).start()
-    threading.Thread(target=calculate_wait_time, daemon=True).start()
-    
-
+    """YOLO 감지 및 추적기 스레드 시작"""
+    try:
+        start_tracker_thread()  # tracker.py 스레드 실행
+        for idx, path in enumerate(video_paths):
+            threading.Thread(target=detect_people, args=(idx, path), daemon=True).start()
+        threading.Thread(target=calculate_wait_time, daemon=True).start()
+        print("[INFO] YOLO detection threads started.")
+    except Exception as e:
+        print(f"[ERROR] Failed to start YOLO threads: {e}")
 
 """
 @app.on_event("startup")  # FastAPI 서버가 실행될 때 한 번 실행되는 이벤트
@@ -163,6 +166,7 @@ app.include_router(router)
 if __name__ == "__main__":  # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo:app", reload=True)  # FastAPI 서버를 실행하는 명령
 """
+
 
 
 
