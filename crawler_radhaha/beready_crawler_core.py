@@ -1,50 +1,17 @@
 # -*- coding: utf-8 -*-
+# Created by rad-haha(absinthe6),안시은 ,2025
+# Part of Team Project: [beready]
+# License: MIT
+
 import re
-import sqlite3
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
-
 from fastapi import APIRouter
 from pydantic import BaseModel
+from sqlalchemy import text
 
-DB_PATH = "cafeteria.db"
-# 이 파일은 serve.py와 같은 경로에 저장됨 #
-
-SCHEMA_SQL = """
-CREATE TABLE IF NOT EXISTS lilac_menu(
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  day_text TEXT NOT NULL,
-  menu TEXT NOT NULL,
-  UNIQUE(day_text, menu)
-);
-"""
-
-def init_db():
-    conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
-    cur.executescript(SCHEMA_SQL)
-    cur.execute("PRAGMA journal_mode=WAL;")
-    cur.execute("PRAGMA busy_timeout=3000;")
-    conn.commit()
-    conn.close()
-
-# ---------- upsert 추가 ----------
-def upsert(items: List[tuple]) -> int:
-    if not items:
-        return 0
-    conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
-    added = 0
-    for day, menu in items:
-        cur.execute(
-            "INSERT OR IGNORE INTO lilac_menu(day_text, menu) VALUES (?, ?)",
-            (day, menu),
-        )
-        if cur.rowcount:
-            added += 1
-    conn.commit()
-    conn.close()
-    return added
+# ✅ DB 관리 통합 (SQLite → PostgreSQL 확장)
+from db import init_db, upsert, engine
 
 DATE_RE = re.compile(r"(?P<m>\d{1,2})\s*월\s*(?P<d>\d{1,2})\s*일")
 
@@ -67,11 +34,9 @@ def _week_window(d: datetime):
     return monday, friday
 
 def get_latest_week_from_db() -> Dict:
-    conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
-    cur.execute("SELECT day_text, menu FROM lilac_menu")
-    rows = cur.fetchall()
-    conn.close()
+    # ✅ 여기만 SQLAlchemy 방식으로 교체
+    with engine.begin() as conn:
+        rows = conn.execute(text("SELECT day_text, menu FROM lilac_menu")).all()
 
     if not rows:
         return {"week_start": None, "days": []}
@@ -105,7 +70,7 @@ def get_latest_week_from_db() -> Dict:
 
 # ---------- Pydantic Models ----------
 class DayMenu(BaseModel):
-    date: Optional[str]=None
+    date: Optional[str] = None
     label: str
     menus: List[str]
 
@@ -113,12 +78,13 @@ class LatestWeekResponse(BaseModel):
     week_start: Optional[str]
     days: List[DayMenu]
 
-# ---------- fastapi용 Router ----------
+# ---------- FastAPI Router ----------
 router = APIRouter(prefix="/api/lilac/menu", tags=["Lilac"])
 
 @router.get("/health", response_model=dict)
 def health():
-    return {"ok": True, "db": DB_PATH}
+    # ✅ DB_PATH 제거 → 간단한 OK 응답으로 변경
+    return {"ok": True}
 
 @router.get("/", response_model=LatestWeekResponse)
 def api_latest_week():
