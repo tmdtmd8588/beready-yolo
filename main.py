@@ -25,9 +25,16 @@ app.include_router(yolo_router)
 
 @app.on_event("startup")
 def startup_event():
-    threading.Thread(target=start_yolo_threads, daemon=True).start()
+    def delayed_start():
+        time.sleep(1)
+        print("[INFO] YOLO thread starting...")
+        try:
+            start_yolo_threads()
+        except Exception as e:
+            print(f"[ERROR] YOLO thread failed: {e}")
 
-
+    threading.Thread(target=delayed_start, daemon=True).start()
+    
 @app.get("/trigger")
 def trigger_crawl():
     added = crawl_once()
@@ -35,6 +42,7 @@ def trigger_crawl():
     
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
 
 
 
