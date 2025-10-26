@@ -137,4 +137,4 @@ router = APIRouter(prefix="/api/lilac/menu", tags=["Lilac"])
 
 @router.get("/health", response_model=dict)
 def health():
-    return {"ok": True
+    return {"ok": True}
