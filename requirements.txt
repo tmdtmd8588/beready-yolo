@@ -6,7 +6,7 @@ apscheduler==3.10.4
 
 ultralytics==8.2.50
 opencv-python-headless==4.10.0.84
-torch==2.2.2
+torch==2.4.1
 numpy==1.26.4
 lapx==0.5.6
 
