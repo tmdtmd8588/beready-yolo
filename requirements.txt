@@ -6,8 +6,10 @@ apscheduler==3.10.4
 
 ultralytics==8.2.50
 opencv-python-headless==4.10.0.84
-torch>=2.3,<2.6
 numpy==1.26.4
 lapx==0.5.6
 
-pymongo
+torch==2.3.1+cpu
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+pymongo==4.15.3
