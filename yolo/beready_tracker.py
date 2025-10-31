@@ -15,7 +15,7 @@ max_missed = 150  # 150프레임 미검출 시 사라진 것으로 간주
 # ----------------------------------------
 
 # 전역 변수
-wait = 0.0
+wait = 20.0
 current_people_count = 0
 running = False
 
@@ -161,6 +161,7 @@ def start_tracker():
 def start_tracker_thread():
     t = threading.Thread(target=start_tracker, daemon=True)
     t.start()
+
 
 
 
