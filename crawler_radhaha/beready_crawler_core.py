@@ -55,7 +55,7 @@ def _fetch_rows() -> List[tuple]:
     """
     if os.getenv("MONGODB_URI"):
         try:
-            from db import fetch_all  # db.py 안에 Mongo 용 fetch_all 있어야 함
+            from crawler_radhaha.db import fetch_all  # db.py 안에 Mongo 용 fetch_all 있어야 함
             return fetch_all()
         except Exception as e:
             print("[WARN] MongoDB fetch 실패, SQLite로 fallback:", e)
