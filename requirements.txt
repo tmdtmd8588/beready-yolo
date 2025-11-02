@@ -9,8 +9,8 @@ opencv-python-headless==4.9.0.80
 numpy==1.26.4
 lapx==0.5.5
 
-torch==2.5.1+cpu
-torchvision==0.20.1+cpu
+torch==2.5.1
+torchvision==0.20.1
 --extra-index-url https://download.pytorch.org/whl/cpu
 
 pymongo==4.9.1
