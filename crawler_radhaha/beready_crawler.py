@@ -15,7 +15,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup, Tag
 
-from db import init_db, upsert
+from crawler_radhaha.db import init_db, upsert
 # db.py 추가하면서 새로 추가 #
 
 # from crawler_radhaha.beready_crawler_core import (init_db, upsert)  # DB는 core 모듈 사용 - 주석처리 #
