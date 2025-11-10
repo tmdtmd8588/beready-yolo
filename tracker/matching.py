@@ -4,9 +4,22 @@ import scipy
 import lap
 from scipy.spatial.distance import cdist
 
-from cython_bbox import bbox_overlaps as bbox_ious
-from yolox.tracker import kalman_filter
+from tracker import kalman_filter
 import time
+
+def bbox_ious(boxes1, boxes2):
+    """NumPy로 IoU 계산"""
+    inter_x1 = np.maximum(boxes1[:, 0], boxes2[:, 0])
+    inter_y1 = np.maximum(boxes1[:, 1], boxes2[:, 1])
+    inter_x2 = np.minimum(boxes1[:, 2], boxes2[:, 2])
+    inter_y2 = np.minimum(boxes1[:, 3], boxes2[:, 3])
+
+    inter_area = np.maximum(0, inter_x2 - inter_x1) * np.maximum(0, inter_y2 - inter_y1)
+    area1 = (boxes1[:, 2] - boxes1[:, 0]) * (boxes1[:, 3] - boxes1[:, 1])
+    area2 = (boxes2[:, 2] - boxes2[:, 0]) * (boxes2[:, 3] - boxes2[:, 1])
+
+    return inter_area / (area1 + area2 - inter_area + 1e-6)
+
 
 def merge_matches(m1, m2, shape):
     O,P,Q = shape
