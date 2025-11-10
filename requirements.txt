@@ -11,6 +11,6 @@ lapx==0.5.6
 
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.2.2
-torchvision==0.21.0
+torchvision==0.17.2
 
 pymongo==4.9.1
