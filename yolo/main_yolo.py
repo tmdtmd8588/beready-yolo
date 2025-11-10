@@ -26,9 +26,6 @@ import torch
 from torch.nn import Sequential
 from ultralytics.nn.tasks import DetectionModel
 
-# ✅ 안전 전역 등록 — 반드시 YOLO 로드 전에 실행
-torch.serialization.add_safe_globals([Sequential, DetectionModel])
-
 from yolo.beready_tracker import get_wait, start_tracker_thread
 import time
 from pydantic import BaseModel
@@ -188,6 +185,7 @@ app.include_router(router)
 if __name__ == "__main__":  # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo:app", reload=True)  # FastAPI 서버를 실행하는 명령
 """
+
 
 
 
