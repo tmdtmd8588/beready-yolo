@@ -11,6 +11,7 @@ from pydantic import BaseModel
 # from typing import List
 from yolo.beready_tracker import get_wait, start_tracker_thread
 import torch
+from torch.nn import Sequential
 from ultralytics.nn.tasks import DetectionModel
 
 # PyTorch 2.6+에서 안전하게 DetectionModel 허용
@@ -173,6 +174,7 @@ app.include_router(router)
 if __name__ == "__main__":  # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo:app", reload=True)  # FastAPI 서버를 실행하는 명령
 """
+
 
 
 
