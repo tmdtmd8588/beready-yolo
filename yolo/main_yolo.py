@@ -1,3 +1,4 @@
+"""
 import threading  # 사람 탐지 로직을 백그라운드에서 실행
 import cv2  # OpenCV, 비디오 프레임 읽고 시각화에 사용
 import warnings
@@ -13,11 +14,24 @@ from yolo.beready_tracker import get_wait, start_tracker_thread
 import torch
 from torch.nn import Sequential
 from ultralytics.nn.tasks import DetectionModel
+"""
 
-# PyTorch 2.6+에서 안전하게 DetectionModel 허용
-torch.serialization.add_safe_globals([DetectionModel])
+import os
+import threading
+import cv2
+import warnings
+from fastapi import APIRouter
+from ultralytics import YOLO
+import torch
+from torch.nn import Sequential
+from ultralytics.nn.tasks import DetectionModel
 
-model = YOLO("yolov8n.pt")  # YOLOv8 모델 로드
+# ✅ 안전 전역 등록 — 반드시 YOLO 로드 전에 실행
+torch.serialization.add_safe_globals([Sequential, DetectionModel])
+
+from yolo.beready_tracker import get_wait, start_tracker_thread
+import time
+from pydantic import BaseModel
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -174,6 +188,7 @@ app.include_router(router)
 if __name__ == "__main__":  # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo:app", reload=True)  # FastAPI 서버를 실행하는 명령
 """
+
 
 
 
