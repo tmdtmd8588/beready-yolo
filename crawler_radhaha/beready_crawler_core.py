@@ -133,13 +133,13 @@ class LatestWeekResponse(BaseModel):
     days: List[DayMenu]
 
 # ---------- fastapi용 Router ----------
-router = APIRouter(prefix="/api/lilac/menu", tags=["Lilac"])
+router = APIRouter()
 
-@router.get("/health", response_model=dict)
+@router.get("api/lilac/menu/health", response_model=dict)
 def health():
     return {"ok": True}
 
-@router.get("/", response_model=LatestWeekResponse)
+@router.get("lilac/menu", response_model=LatestWeekResponse)
 def api_latest_week():
     return get_latest_week_from_db()
 
