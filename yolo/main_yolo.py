@@ -148,7 +148,7 @@ class EstimateResponse(BaseModel):
 
 # ----------------------------------------------------
 
-@router.get("/yolo", response_model=EstimateResponse)
+@router.get("/lilac/estimation", response_model=EstimateResponse)
 def get_lilac():
     with count_lock:
         return {"cam1": camera_counts[0], "cam2": camera_counts[1],
@@ -185,6 +185,7 @@ app.include_router(router)
 if __name__ == "__main__":  # 현재 스크립트가 직접 실행될 때만 내부 코드를 실행
     uvicorn.run("main_yolo:app", reload=True)  # FastAPI 서버를 실행하는 명령
 """
+
 
 
 
